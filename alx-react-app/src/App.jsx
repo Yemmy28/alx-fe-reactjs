@@ -13,7 +13,7 @@ function App() {
   const [count, setCount] = useState(0)
   const user = {
     name: "Alice",
-    age: 28,
+    age: 25,
     bio: "Loves hiking and photography"
 };
 
