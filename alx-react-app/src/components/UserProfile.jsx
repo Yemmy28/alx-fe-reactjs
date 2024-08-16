@@ -1,9 +1,6 @@
 import React from 'react';
 
-function UserProfile(props) {
-    // Destructure the props
-    const { name, age, bio } = props;
-
+function UserProfile({ name, age, bio }) {
     return (
         <div className="user-profile">
             <h2>{name}</h2>
