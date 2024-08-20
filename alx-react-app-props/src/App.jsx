@@ -8,6 +8,9 @@ import MainContent from './components/MainContent'
 import Footer from './components/Footer'
 import UserProfile from './components/UserProfile'
 import Counter from './components/Counter'
+import ProfilePage from './ProfilePage'
+import UserContext from './UserContext'
+
 
 
 function App() {
@@ -20,6 +23,7 @@ function App() {
 
   
   return (
+    
     <>
       <div>
         <Header />
@@ -30,7 +34,10 @@ function App() {
                     age={user.age}
                     bio={user.bio}
                 />
-        <Counter />        
+        <Counter />  
+        <UserContext.Provider value={userData}>
+      <ProfilePage />
+    </UserContext.Provider>    
       <WelcomeMessage />
      
         <a href="https://vitejs.dev" target="_blank">
