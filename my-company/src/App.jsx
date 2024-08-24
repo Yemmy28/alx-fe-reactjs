@@ -2,6 +2,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Home from './Home'
 import About from './About'
 import Services from './Services'
@@ -25,7 +26,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
       </Routes>
     </Router>
-    
+
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
