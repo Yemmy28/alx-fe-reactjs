@@ -7,6 +7,9 @@ import RecipeList from './components/RecipeList';
 import AddRecipeForm from './components/AddRecipeForm';
 import RecipeDetails from './components/RecipeDetails';
 import SearchBar from './components/SearchBar';
+import FavoritesList from './components/FavoritesList';
+import RecommendationsList from './components/RecommendationsList';
+
 
 
 
@@ -21,6 +24,8 @@ function App() {
       <SearchBar />
       <AddRecipeForm />
       <RecipeList />
+      <FavoritesList />
+      <RecommendationsList />
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
