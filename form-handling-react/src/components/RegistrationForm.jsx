@@ -5,6 +5,9 @@ const RegistrationForm = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  
+  // State for error messages
+  const [errors, setErrors] = useState({});
 
   // Handler for form field changes
   const handleChange = (e) => {
@@ -17,12 +20,29 @@ const RegistrationForm = () => {
   // Handler for form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!username || !email || !password) {
-      alert('All fields are required!');
+    
+    // Reset errors
+    const newErrors = {};
+
+    // Basic validation
+    if (!username) newErrors.username = 'Username is required';
+    if (!email) newErrors.email = 'Email is required';
+    if (!password) newErrors.password = 'Password is required';
+
+    // If there are errors, set them and prevent submission
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
+
     // Handle form submission (e.g., send data to an API)
     console.log('Form submitted', { username, email, password });
+
+    // Clear form fields after successful submission
+    setUsername('');
+    setEmail('');
+    setPassword('');
+    setErrors({});
   };
 
   return (
@@ -32,27 +52,30 @@ const RegistrationForm = () => {
         <input
           type="text"
           name="username"
-          value={username}  // Controlled input
+          value={username}
           onChange={handleChange}
         />
+        {errors.username && <p className="error">{errors.username}</p>}
       </div>
       <div>
         <label>Email:</label>
         <input
           type="email"
           name="email"
-          value={email}  // Controlled input
+          value={email}
           onChange={handleChange}
         />
+        {errors.email && <p className="error">{errors.email}</p>}
       </div>
       <div>
         <label>Password:</label>
         <input
           type="password"
           name="password"
-          value={password}  // Controlled input
+          value={password}
           onChange={handleChange}
         />
+        {errors.password && <p className="error">{errors.password}</p>}
       </div>
       <button type="submit">Register</button>
     </form>
