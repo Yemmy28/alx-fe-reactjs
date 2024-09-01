@@ -22,7 +22,7 @@ function App() {
               <Profile /> 
               </ProtectedRoute>
               } />
-        <Route path="/post/:postId" element={<BlogPost />} />
+        <Route path="/blog/:id" element={<BlogPost />} /> {/* Dynamic route */}
        </Routes>
     </Router>
         <a href="https://vitejs.dev" target="_blank">
