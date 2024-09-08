@@ -24,6 +24,9 @@ const TodoList = () => {
     setTodos(todos.filter(todo => todo.id !== id));
   };
 
+  <input type="text" value={newTodo} onChange={handleInputChange} placeholder="Add new todo" />
+
+
   return (
     <div>
       <h2>Todo List</h2>
