@@ -1,8 +1,9 @@
 {
   "dependencies": {
-    "formik": "^2.4.6",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-router-dom": "^6.26.2"
+    "react-router-dom": "^6.0.0",
+    "vite": "^2.0.0"
   }
 }
+
