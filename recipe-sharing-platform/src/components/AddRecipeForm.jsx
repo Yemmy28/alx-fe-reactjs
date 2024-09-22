@@ -9,6 +9,18 @@ function AddRecipeForm() {
   
   const [errors, setErrors] = useState({});
 
+  // Validate function to check input validity
+  const validate = () => {
+    const validationErrors = {};
+    if (!formData.title) validationErrors.title = "Title is required.";
+    if (!formData.ingredients || formData.ingredients.split(",").length < 2) {
+      validationErrors.ingredients = "At least two ingredients are required.";
+    }
+    if (!formData.steps) validationErrors.steps = "Preparation steps are required.";
+
+    return validationErrors;
+  };
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -16,13 +28,8 @@ function AddRecipeForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validation
-    const validationErrors = {};
-    if (!formData.title) validationErrors.title = "Title is required.";
-    if (!formData.ingredients || formData.ingredients.split(",").length < 2) {
-      validationErrors.ingredients = "At least two ingredients are required.";
-    }
-    if (!formData.steps) validationErrors.steps = "Preparation steps are required.";
+    // Call validate function
+    const validationErrors = validate();
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
