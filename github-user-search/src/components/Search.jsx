@@ -1,65 +1,109 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
-function Search({ onSubmit }) {
+const Search = () => {
   const [username, setUsername] = useState('');
   const [location, setLocation] = useState('');
   const [minRepos, setMinRepos] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [users, setUsers] = useState([]);
 
-  const handleSubmit = (e) => {
+  // Function to fetch users from GitHub API
+  const fetchUserData = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      // Construct query with multiple parameters
+      let query = `${username ? `user:${username}` : ''}`;
+      if (location) query += `+location:${location}`;
+      if (minRepos) query += `+repos:>${minRepos}`;
+
+      const response = await axios.get(
+        `https://api.github.com/search/users?q=${query}`
+      );
+      setUsers(response.data.items);
+    } catch (error) {
+      setError('Looks like we can’t find the user.');
+    }
+    setLoading(false);
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit({ username, location, minRepos });
+    await fetchUserData();
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 max-w-lg mx-auto space-y-4">
-      <input
-        type="text"
-        placeholder="GitHub Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        className="border p-2 w-full"
-      />
-      <input
-        type="text"
-        placeholder="Location"
-        value={location}
-        onChange={(e) => setLocation(e.target.value)}
-        className="border p-2 w-full"
-      />
-      <input
-        type="number"
-        placeholder="Minimum Repositories"
-        value={minRepos}
-        onChange={(e) => setMinRepos(e.target.value)}
-        className="border p-2 w-full"
-      />
-      <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-        Search
-      </button>
-    </form>
-  );
-}
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">GitHub User Search</h1>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block mb-2">Username</label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Enter GitHub username"
+            className="p-2 border border-gray-300 rounded w-full"
+          />
+        </div>
+        <div>
+          <label className="block mb-2">Location</label>
+          <input
+            type="text"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            placeholder="Enter location"
+            className="p-2 border border-gray-300 rounded w-full"
+          />
+        </div>
+        <div>
+          <label className="block mb-2">Minimum Repositories</label>
+          <input
+            type="number"
+            value={minRepos}
+            onChange={(e) => setMinRepos(e.target.value)}
+            placeholder="Enter minimum number of repos"
+            className="p-2 border border-gray-300 rounded w-full"
+          />
+        </div>
+        <button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
+          Search
+        </button>
+      </form>
 
-function SearchResults({ users }) {
-    if (!users || users.length === 0) {
-      return <p>No users found.</p>;
-    }
-  
-    return (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {users.map((user) => (
-          <div key={user.id} className="p-4 border rounded shadow-lg">
-            <img src={user.avatar_url} alt={user.login} className="w-24 h-24 rounded-full" />
-            <h2 className="text-lg font-bold">{user.login}</h2>
-            <p>{user.location || 'Location not available'}</p>
-            <p>{user.public_repos} repositories</p>
-            <a href={user.html_url} target="_blank" rel="noopener noreferrer" className="text-blue-500">
-              View Profile
-            </a>
-          </div>
-        ))}
+      {loading && <p className="mt-4 text-blue-500">Loading...</p>}
+
+      {error && <p className="mt-4 text-red-500">{error}</p>}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8">
+        {users.length > 0 &&
+          users.map((user) => (
+            <div key={user.id} className="border p-4 rounded shadow">
+              <img
+                src={user.avatar_url}
+                alt={user.login}
+                className="w-24 h-24 rounded-full mx-auto mb-4"
+              />
+              <h2 className="text-xl font-bold mb-2">{user.login}</h2>
+              <a
+                href={user.html_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:underline"
+              >
+                View Profile
+              </a>
+            </div>
+          ))}
       </div>
-    );
-  }
-  
-  export default SearchResults;
+    </div>
+  );
+};
+
+export default Search;
