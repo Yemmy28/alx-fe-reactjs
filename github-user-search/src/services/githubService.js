@@ -58,3 +58,21 @@ export const fetchAdvancedUserData = async (username, location, minRepos) => {
     const response = await axios.get(url);
     return response.data;
   };
+  const GITHUB_API_URL = 'https://api.github.com/search/users';
+
+
+  try {
+    const query = [
+      `q=${username ? `${username} in:login` : ''}`,
+      location ? `location:${location}` : '',
+      minRepos ? `repos:>${minRepos}` : ''
+    ]
+      .filter(Boolean)
+      .join('+');
+
+    const response = await axios.get(`${GITHUB_API_URL}?${query}`);
+    return response.data.items;
+  } catch (error) {
+    throw new Error('Error fetching user data');
+  }
+};
