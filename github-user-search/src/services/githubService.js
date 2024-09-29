@@ -44,3 +44,17 @@ export const getUserDetails = async (username) => {
     throw error;
   }
 };
+
+export const fetchAdvancedUserData = async (username, location, minRepos) => {
+    const query = [];
+  
+    if (username) query.push(`user:${username}`);
+    if (location) query.push(`location:${location}`);
+    if (minRepos) query.push(`repos:>${minRepos}`);
+  
+    const searchQuery = query.join('+');
+    const url = `https://api.github.com/search/users?q=${searchQuery}`;
+  
+    const response = await axios.get(url);
+    return response.data;
+  };
