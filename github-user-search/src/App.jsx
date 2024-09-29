@@ -7,6 +7,12 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SearchPage from './components/SearchPage';
 
 function App() {
+  return (
+    <div className="App">
+      <h1 className="text-center text-2xl font-bold mt-8">GitHub User Search</h1>
+      <Search />
+    </div>
+  );
   const [count, setCount] = useState(0)
 
   return (

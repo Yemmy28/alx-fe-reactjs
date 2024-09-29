@@ -3,6 +3,7 @@ import axios from 'axios';
 const API_URL = process.env.VITE_GITHUB_API_URL || 'https://api.github.com';
 
 // Function to search for GitHub users by username
+
 export const searchUsers = async (username) => {
   try {
     const response = await axios.get(`${API_URL}/search/users`, {
