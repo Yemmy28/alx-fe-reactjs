@@ -2,6 +2,15 @@ import axios from 'axios';
 
 const API_URL = process.env.VITE_GITHUB_API_URL || 'https://api.github.com';
 
+export const fetchUserData = async (username) => {
+    try {
+      const response = await axios.get(`https://api.github.com/users/${username}`);
+      return response.data;  // Return the user data from GitHub API
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      throw error;  // Throw the error to handle it in the calling component
+    }
+  };
 // Function to search for GitHub users by username
 
 export const searchUsers = async (username) => {
